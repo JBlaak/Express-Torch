@@ -5,6 +5,20 @@ Torch
 
 A more elegant way of specifying your Express routes.
 
+Running the example
+-----
+
+The project includes a simple example rendering a `/` and `/api/posts` endpoint,
+you can set it up as follows:
+
+```bash
+$ cd ./example
+$ yarn
+$ npm start
+```
+
+Now visit `http://localhost:3000` and take a look at `server.js`!
+
 Usage
 -----
 
