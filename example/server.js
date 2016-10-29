@@ -1,5 +1,8 @@
 import Express from 'express';
 import Torch from '../build/torch'
+
+import OAuth from './middleware/oauth';
+
 import HomeController from './controllers/home';
 import ApiPostsController from './controllers/api/posts';
 
@@ -11,7 +14,8 @@ Torch(app, (router) => {
 
     router.group(
         {
-            'prefix': 'api'
+            'prefix': 'api',
+            'middleware': [OAuth]
         },
         (router) => {
 

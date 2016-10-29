@@ -1,8 +1,12 @@
-import {Application} from "express";
+import {Application, Request, Response, NextFunction} from "express";
 import Route from "./route";
 import Router from "./router";
 
-export default function connect(app: Application, router: Router, prefix: string = '/') {
+export default function connect(app: Application,
+                                router: Router,
+                                prefix: string = '/',
+                                middleware: Array<(req: Request, res: Response, next: NextFunction) => any> = []) {
+    
     function trim(path: string): string {
         return path.replace(/^\/|\/$/g, '');
     }
@@ -15,25 +19,26 @@ export default function connect(app: Application, router: Router, prefix: string
 
         switch (route.method) {
             case 'get':
-                app.get(path, route.controller);
+                app.get(path, [...middleware, ...route.middleware], route.controller);
                 break;
             case 'post':
-                app.post(path, route.controller);
+                app.post(path, [...middleware, ...route.middleware], route.controller);
                 break;
             case 'put':
-                app.put(path, route.controller);
+                app.put(path, [...middleware, ...route.middleware], route.controller);
                 break;
             case 'delete':
-                app.delete(path, route.controller);
+                app.delete(path, [...middleware, ...route.middleware], route.controller);
                 break;
         }
     });
 
-    router.groups.forEach((router: Router) => {
+    router.groups.forEach((r: Router) => {
         connect(
             app,
-            router,
-            '/' + trim(prefix) + '/' + trim(router.prefix)
+            r,
+            '/' + trim(prefix) + '/' + trim(r.prefix),
+            [...middleware, ...r.middleware]
         );
     });
 }

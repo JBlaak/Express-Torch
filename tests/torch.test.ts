@@ -1,4 +1,4 @@
-import {Application, Request, Response} from "express";
+import {Application, Request, Response, NextFunction} from "express";
 import {expect} from 'chai';
 import Torch from "../src/torch";
 import Router from "../src/router";
@@ -11,7 +11,7 @@ describe('Torch', function () {
         let registeredMethod: ((req: Request, res: Response) => void)|null = null;
 
         const app: any = {
-            get: (path: string, method: ((req: Request, res: Response) => void)) => {
+            get: (path: string, middleware: Array<(req: Request, res: Response, next: NextFunction) => any>, method: ((req: Request, res: Response) => void)) => {
                 registeredPath = path;
                 registeredMethod = method;
             }
@@ -36,7 +36,7 @@ describe('Torch', function () {
         let registeredMethod: ((req: Request, res: Response) => void)|null = null;
 
         const app: any = {
-            post: (path: string, method: ((req: Request, res: Response) => void)) => {
+            post: (path: string, middleware: Array<(req: Request, res: Response, next: NextFunction) => any>, method: ((req: Request, res: Response) => void)) => {
                 registeredPath = path;
                 registeredMethod = method;
             }
@@ -61,7 +61,7 @@ describe('Torch', function () {
         let registeredMethod: ((req: Request, res: Response) => void)|null = null;
 
         const app: any = {
-            put: (path: string, method: ((req: Request, res: Response) => void)) => {
+            put: (path: string, middleware: Array<(req: Request, res: Response, next: NextFunction) => any>, method: ((req: Request, res: Response) => void)) => {
                 registeredPath = path;
                 registeredMethod = method;
             }
@@ -86,7 +86,7 @@ describe('Torch', function () {
         let registeredMethod: ((req: Request, res: Response) => void)|null = null;
 
         const app: any = {
-            delete: (path: string, method: ((req: Request, res: Response) => void)) => {
+            delete: (path: string, middleware: Array<(req: Request, res: Response, next: NextFunction) => any>, method: ((req: Request, res: Response) => void)) => {
                 registeredPath = path;
                 registeredMethod = method;
             }
@@ -111,7 +111,7 @@ describe('Torch', function () {
         let registeredMethod: ((req: Request, res: Response) => void)|null = null;
 
         const app: any = {
-            get: (path: string, method: ((req: Request, res: Response) => void)) => {
+            get: (path: string, middleware: Array<(req: Request, res: Response, next: NextFunction) => any>, method: ((req: Request, res: Response) => void)) => {
                 registeredPath = path;
                 registeredMethod = method;
             }
@@ -138,7 +138,7 @@ describe('Torch', function () {
         let registeredMethod: ((req: Request, res: Response) => void)|null = null;
 
         const app: any = {
-            get: (path: string, method: ((req: Request, res: Response) => void)) => {
+            get: (path: string, middleware: Array<(req: Request, res: Response, next: NextFunction) => any>, method: ((req: Request, res: Response) => void)) => {
                 registeredPath = path;
                 registeredMethod = method;
             }
@@ -163,7 +163,7 @@ describe('Torch', function () {
         let registeredMethod: ((req: Request, res: Response) => void)|null = null;
 
         const app: any = {
-            get: (path: string, method: ((req: Request, res: Response) => void)) => {
+            get: (path: string, middleware: Array<(req: Request, res: Response, next: NextFunction) => any>, method: ((req: Request, res: Response) => void)) => {
                 registeredPath = path;
                 registeredMethod = method;
             }
@@ -190,7 +190,7 @@ describe('Torch', function () {
         let registeredMethod: ((req: Request, res: Response) => void)|null = null;
 
         const app: any = {
-            get: (path: string, method: ((req: Request, res: Response) => void)) => {
+            get: (path: string, middleware: Array<(req: Request, res: Response, next: NextFunction) => any>, method: ((req: Request, res: Response) => void)) => {
                 registeredPath = path;
                 registeredMethod = method;
             }
@@ -218,7 +218,7 @@ describe('Torch', function () {
         let registeredPath: string|null = null;
 
         const app: any = {
-            get: (path: string, method: ((req: Request, res: Response) => void)) => {
+            get: (path: string, middleware: Array<(req: Request, res: Response, next: NextFunction) => any>, method: ((req: Request, res: Response) => void)) => {
                 registeredPath = path;
             }
         };
@@ -244,7 +244,7 @@ describe('Torch', function () {
         let registeredPath: string|null = null;
 
         const app: any = {
-            get: (path: string, method: ((req: Request, res: Response) => void)) => {
+            get: (path: string, middleware: Array<(req: Request, res: Response, next: NextFunction) => any>, method: ((req: Request, res: Response) => void)) => {
                 registeredPath = path;
             }
         };
@@ -264,5 +264,130 @@ describe('Torch', function () {
         /* Then */
         expect(registeredPath).to.equal('/api/posts');
     });
+
+    it('Should pass the middleware', function () {
+        /* Given */
+        let registeredMiddleware: (Array<(req: Request, res: Response, next: NextFunction) => any>)|null = null;
+
+        const app: any = {
+            get: (path: string, middleware: Array<(req: Request, res: Response, next: NextFunction) => any>, method: ((req: Request, res: Response) => void)) => {
+                registeredMiddleware = middleware;
+            }
+        };
+
+        /* When */
+        const middleware = (req: any, res: any, next: any) => {
+            /* The impl */
+        };
+        const method = (req: any, res: any) => {
+            /* The impl */
+        };
+        Torch(app as Application, (router: Router) => {
+            router.get('/home', {
+                middleware: [middleware],
+                controller: method
+            });
+        });
+
+        /* Then */
+        expect(registeredMiddleware[0]).to.equal(middleware);
+    });
+
+    it('Should add middleware from the group', function () {
+        /* Given */
+        let registeredMiddleware: (Array<(req: Request, res: Response, next: NextFunction) => any>)|null = null;
+
+        const app: any = {
+            get: (path: string, middleware: Array<(req: Request, res: Response, next: NextFunction) => any>, method: ((req: Request, res: Response) => void)) => {
+                registeredMiddleware = middleware;
+            }
+        };
+
+        /* When */
+        const middleware = (req: any, res: any, next: any) => {
+            /* The impl */
+        };
+        const method = (req: any, res: any) => {
+            /* The impl */
+        };
+        Torch(app as Application, (router: Router) => {
+            router.group({middleware: [middleware]}, (router: Router) => {
+                router.get('/home', method);
+            });
+        });
+
+        /* Then */
+        expect(registeredMiddleware[0]).to.equal(middleware);
+    });
+
+    it('Should inherit middleware from distant group', function () {
+        /* Given */
+        let registeredMiddleware: (Array<(req: Request, res: Response, next: NextFunction) => any>)|null = null;
+
+        const app: any = {
+            get: (path: string, middleware: Array<(req: Request, res: Response, next: NextFunction) => any>, method: ((req: Request, res: Response) => void)) => {
+                registeredMiddleware = middleware;
+            }
+        };
+
+        /* When */
+        const middleware = (req: any, res: any, next: any) => {
+            /* The impl */
+        };
+        const method = (req: any, res: any) => {
+            /* The impl */
+        };
+        Torch(app as Application, (router: Router) => {
+            router.group({middleware: [middleware]}, (router: Router) => {
+                router.group({}, (router: Router) => {
+                    router.get('/home', method);
+                });
+            });
+        });
+
+        /* Then */
+        expect(registeredMiddleware[0]).to.equal(middleware);
+    });
+
+    it('Should add middlewares in correct order', function () {
+        /* Given */
+        let registeredMiddleware: (Array<(req: Request, res: Response, next: NextFunction) => any>)|null = null;
+
+        const app: any = {
+            get: (path: string, middleware: Array<(req: Request, res: Response, next: NextFunction) => any>, method: ((req: Request, res: Response) => void)) => {
+                registeredMiddleware = middleware;
+            }
+        };
+
+        /* When */
+        const a = (req: any, res: any, next: any) => {
+            /* The impl */
+        };
+        const b = (req: any, res: any, next: any) => {
+            /* The impl */
+        };
+        const c = (req: any, res: any, next: any) => {
+            /* The impl */
+        };
+        const method = (req: any, res: any) => {
+            /* The impl */
+        };
+        Torch(app as Application, (router: Router) => {
+            router.group({middleware: [a]}, (router: Router) => {
+                router.group({middleware: [b]}, (router: Router) => {
+                    router.get('/home', {
+                        middleware: [c],
+                        controller: method
+                    });
+                });
+            });
+        });
+
+        /* Then */
+        expect(registeredMiddleware[0]).to.equal(a);
+        expect(registeredMiddleware[1]).to.equal(b);
+        expect(registeredMiddleware[2]).to.equal(c);
+    });
+
 
 });

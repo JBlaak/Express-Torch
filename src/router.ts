@@ -1,4 +1,4 @@
-import {Request, Response} from "express";
+import {Request, Response, NextFunction} from "express";
 import {GroupConfig} from "./interfaces/group_config";
 import {RouteConfig} from "./interfaces/route_config";
 import Route from "./route";
@@ -40,6 +40,14 @@ export default class Router {
      */
     get routes(): Array<Route> {
         return this._routes;
+    }
+
+    /**
+     * Get prefix for routes of this router
+     * @returns {string|string}
+     */
+    get middleware(): Array<(req: Request, res: Response, next: NextFunction) => any> {
+        return this.config.middleware || [];
     }
 
     /**
