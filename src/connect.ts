@@ -17,6 +17,15 @@ export default function connect(app: Application, router: Router, prefix: string
             case 'get':
                 app.get(path, route.controller);
                 break;
+            case 'post':
+                app.post(path, route.controller);
+                break;
+            case 'put':
+                app.put(path, route.controller);
+                break;
+            case 'delete':
+                app.delete(path, route.controller);
+                break;
         }
     });
 

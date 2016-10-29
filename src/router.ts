@@ -62,6 +62,39 @@ export default class Router {
     }
 
     /**
+     * POST method
+     * @param path
+     * @param config
+     */
+    public post(path: string, config: ((req: Request, res: Response) => void) | RouteConfig) {
+        const route = this.toRoute('post', path, config);
+
+        this._routes.push(route);
+    }
+
+    /**
+     * PUT method
+     * @param path
+     * @param config
+     */
+    public put(path: string, config: ((req: Request, res: Response) => void) | RouteConfig) {
+        const route = this.toRoute('put', path, config);
+
+        this._routes.push(route);
+    }
+
+    /**
+     * DELETE method
+     * @param path
+     * @param config
+     */
+    public delete(path: string, config: ((req: Request, res: Response) => void) | RouteConfig) {
+        const route = this.toRoute('delete', path, config);
+
+        this._routes.push(route);
+    }
+
+    /**
      * Register a new group of routes with their own configurations
      * @param config
      * @param callback
