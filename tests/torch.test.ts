@@ -30,6 +30,81 @@ describe('Torch', function () {
         expect(registeredMethod).to.equal(method);
     });
 
+    it('Should allow for registering a POST method directly', function () {
+        /* Given */
+        let registeredPath: string|null = null;
+        let registeredMethod: ((req: Request, res: Response) => void)|null = null;
+
+        const app: any = {
+            post: (path: string, method: ((req: Request, res: Response) => void)) => {
+                registeredPath = path;
+                registeredMethod = method;
+            }
+        };
+
+        /* When */
+        const method = (req: any, res: any) => {
+            /* The impl */
+        };
+        Torch(app as Application, (router: Router) => {
+            router.post('/posts', method);
+        });
+
+        /* Then */
+        expect(registeredPath).to.equal('/posts');
+        expect(registeredMethod).to.equal(method);
+    });
+
+    it('Should allow for registering a PUT method directly', function () {
+        /* Given */
+        let registeredPath: string|null = null;
+        let registeredMethod: ((req: Request, res: Response) => void)|null = null;
+
+        const app: any = {
+            put: (path: string, method: ((req: Request, res: Response) => void)) => {
+                registeredPath = path;
+                registeredMethod = method;
+            }
+        };
+
+        /* When */
+        const method = (req: any, res: any) => {
+            /* The impl */
+        };
+        Torch(app as Application, (router: Router) => {
+            router.put('/posts/:id', method);
+        });
+
+        /* Then */
+        expect(registeredPath).to.equal('/posts/:id');
+        expect(registeredMethod).to.equal(method);
+    });
+
+    it('Should allow for registering a DELETE method directly', function () {
+        /* Given */
+        let registeredPath: string|null = null;
+        let registeredMethod: ((req: Request, res: Response) => void)|null = null;
+
+        const app: any = {
+            delete: (path: string, method: ((req: Request, res: Response) => void)) => {
+                registeredPath = path;
+                registeredMethod = method;
+            }
+        };
+
+        /* When */
+        const method = (req: any, res: any) => {
+            /* The impl */
+        };
+        Torch(app as Application, (router: Router) => {
+            router.delete('/posts/:id', method);
+        });
+
+        /* Then */
+        expect(registeredPath).to.equal('/posts/:id');
+        expect(registeredMethod).to.equal(method);
+    });
+
     it('Should allow for registering by passing a config', function () {
         /* Given */
         let registeredPath: string|null = null;
