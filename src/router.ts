@@ -43,6 +43,14 @@ export default class Router {
     }
 
     /**
+     * Get prefix for routes of this router
+     * @returns {string|string}
+     */
+    get prefix():string {
+        return this.config.prefix || '/';
+    }
+
+    /**
      * GET method
      * @param path
      * @param config
