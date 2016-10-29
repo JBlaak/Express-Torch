@@ -1,7 +1,7 @@
 import {Request, Response} from "express";
 import {GroupConfig} from "./interfaces/group_config";
-import {Route} from "./interfaces/route";
 import {RouteConfig} from "./interfaces/route_config";
+import Route from "./route";
 
 export default class Router {
 
@@ -70,24 +70,20 @@ export default class Router {
      * Transform to route
      * @param method
      * @param path
-     * @param config
+     * @param controller
      * @returns Route
      */
-    private toRoute(method: string, path: string, config: ((req: Request, res: Response) => void) | RouteConfig): Route {
-        if (typeof config === 'function') {
-            config = {
-                name: null,
-                middleware: [],
-                controller: (config as ((req: Request, res: Response) => void))
-            }
+    private toRoute(method: string, path: string, controller: ((req: Request, res: Response) => void) | RouteConfig): Route {
+        if (typeof controller === 'function') {
+            return new Route(method, path, (controller as ((req: Request, res: Response) => void)));
         }
 
-        return {
-            path: path,
-            method: method,
-            name: config.name || null,
-            middleware: config.middleware || [],
-            controller: config.controller
-        };
+        const config = (controller as RouteConfig);
+
+        const route = new Route(method, path, config.controller);
+        route.name = config.name;
+        route.middleware = config.middleware;
+
+        return route;
     }
 }
