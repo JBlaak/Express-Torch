@@ -1,6 +1,8 @@
 Torch
 =====
 
+[![Build Status](https://travis-ci.org/JBlaak/Torch.svg?branch=master)](https://travis-ci.org/JBlaak/Torch)
+
 A more elegant way of specifying your Express routes.
 
 Usage
