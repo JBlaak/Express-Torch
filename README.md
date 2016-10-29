@@ -69,3 +69,51 @@ Torch(app, (router) => {
 app.listen(3000);
 ```
 
+__Middleware__
+
+Groups have another advantage, you can apply regular Express middleware to them,
+so that they stack together without you having to specify them per route
+
+```js
+import Express from 'express';
+import Torch from 'torch';
+import HomeController from './controllers/home';
+
+const app = Express();
+
+Torch(app, (router) => {
+    router.group({middlware: [Cookies, Session]}, (router) => {
+    router.get('/', HomeController.index);// Cookies > Session
+    router.group({middleware: [Throttle]}, (router) => {
+        router.get('/posts', HomeController.index);// Cookies > Session > Throttle
+        router.group({middleware: [OAuth, Policy('manage-posts')]}, (router) => {
+            router.get('/posts/:id', HomeController.show);// Cookies > Session > Throttle > OAuth > Policy('manage-posts')
+        });
+    });
+});
+
+//... your other Express logic
+
+app.listen(3000);
+```
+
+if you want, you can still apply middleware to a single route
+
+```js
+import Express from 'express';
+import Torch from 'torch';
+import HomeController from './controllers/home';
+
+const app = Express();
+
+Torch(app, (router) => {
+    router.get('/', {,
+        middleware: [Auth],
+        controller: HomeController.index
+    });
+});
+
+//... your other Express logic
+
+app.listen(3000);
+```

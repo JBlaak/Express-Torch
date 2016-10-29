@@ -29,16 +29,16 @@ export default class Route {
         return this._path;
     }
 
-    get name(): string|any {
-        return this._name;
+    get name(): string|null {
+        return this._name || null;
     }
 
-    set name(value: string|any) {
+    set name(value: string|null) {
         this._name = value;
     }
 
     get middleware(): Array<(req: Request, res: Response, next: NextFunction) => any> {
-        return this._middleware;
+        return this._middleware || [];
     }
 
     set middleware(value: Array<(req: Request, res: Response, next: NextFunction) => any>) {
