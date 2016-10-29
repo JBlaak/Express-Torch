@@ -7,7 +7,6 @@ const app = Express();
 
 Torch(app, (router) => {
 
-    //Simple binding
     router.get('/', HomeController.index);
 
     router.group(
