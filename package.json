@@ -1,9 +1,10 @@
 {
   "name": "express-torch",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "build/torch.js",
   "license": "MIT",
   "scripts": {
+    "prepublish": "npm run build",
     "build": "tsc",
     "test": "tsc --target es5 ./typings/index.d.ts ./tests/torch.test.ts && mocha tests --recursive"
   },

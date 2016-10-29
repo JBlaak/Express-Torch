@@ -1,0 +1,10 @@
+src/
+tests/
+typings/
+.idea
+node_modules
+example
+npm-debug.log
+.babelrc
+.travis.yml
+mocha.config.js
