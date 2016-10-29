@@ -7,6 +7,7 @@ Usage
 -----
 
 __Basic usage__
+
 You pass your Express app to Torch, and a callback in which you can 
 specify your routes.
 
