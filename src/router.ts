@@ -1,6 +1,6 @@
 import {Request, Response, NextFunction} from "express";
-import {GroupConfig} from "./interfaces/group_config";
-import {RouteConfig} from "./interfaces/route_config";
+import {GroupConfig} from "./models/group_config";
+import {RouteConfig} from "./models/route_config";
 import Route from "./route";
 
 export default class Router {
@@ -47,15 +47,21 @@ export default class Router {
      * @returns {string|string}
      */
     get middleware(): Array<(req: Request, res: Response, next: NextFunction) => any> {
-        return this.config.middleware || [];
+        if (this.config) {
+            return this.config.middleware || [];
+        }
+        return [];
     }
 
     /**
      * Get prefix for routes of this router
-     * @returns {string|string}
+     * @returns {string|null}
      */
-    get prefix():string {
-        return this.config.prefix || '/';
+    get prefix():string|null {
+        if (this.config) {
+            return this.config.prefix || null;
+        }
+        return null;
     }
 
     /**
