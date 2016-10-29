@@ -4,6 +4,10 @@
   "license": "MIT",
   "main": "build/torch.js",
   "types": "./express-torch.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/JBlaak/Torch.git"
+  },
   "scripts": {
     "prepublish": "npm run build",
     "build": "rm -rf ./build && tsc && npm run declarations && npm run declaration-bundle",
