@@ -7,4 +7,7 @@ example
 npm-debug.log
 .babelrc
 .travis.yml
-mocha.config.js
+build/**/*.ts
+tsconfig.json
+typings.json
+

@@ -1,15 +1,19 @@
 {
   "name": "express-torch",
-  "version": "0.1.1",
-  "main": "build/torch.js",
+  "version": "0.1.2",
   "license": "MIT",
+  "main": "build/torch.js",
+  "types": "./express-torch.d.ts",
   "scripts": {
     "prepublish": "npm run build",
-    "build": "tsc",
+    "build": "rm -rf ./build && tsc && npm run declarations && npm run declaration-bundle",
+    "declarations": "tsc --declaration",
+    "declaration-bundle": "dts-bundle --name express-torch --out ./express-torch.d.ts --main ./build/torch.d.ts && mv ./build/express-torch.d.ts ./express-torch.d.ts",
     "test": "tsc --target es5 ./typings/index.d.ts ./tests/torch.test.ts && mocha tests --recursive"
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "dts-bundle": "^0.6.1",
     "mocha": "^3.1.2",
     "typescript": "^2.0.6"
   },
