@@ -213,7 +213,7 @@ describe('Torch', function () {
         expect(registeredMethod).to.equal(method);
     });
 
-    it('Should allow for registering a route with a prefix from two groups with a name', function () {
+    it('Should allow for registering a route with a prefix from two groups with a path', function () {
         /* Given */
         let registeredPath: string|null = null;
 
@@ -239,7 +239,7 @@ describe('Torch', function () {
         expect(registeredPath).to.equal('/api/posts/:id/update');
     });
 
-    it('Should allow for registering a route with a prefix from two groups without a name', function () {
+    it('Should allow for registering a route with a prefix from two groups without a path', function () {
         /* Given */
         let registeredPath: string|null = null;
 
