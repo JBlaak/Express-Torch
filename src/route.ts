@@ -5,8 +5,6 @@ export default class Route {
 
     private _path: string;
 
-    private _name: string | null;
-
     private _middleware: Array<(req: Request, res: Response, next: NextFunction) => any>;
 
     private _controller: (req: Request, res: Response) => void;
@@ -21,20 +19,12 @@ export default class Route {
         return this._method;
     }
 
-    set method(value: string) {
-        this._method = value;
-    }
-
     get path(): string {
         return this._path;
     }
 
-    get name(): string|null {
-        return this._name || null;
-    }
-
-    set name(value: string|null) {
-        this._name = value;
+    get controller(): (req: Request, res: Response) => void {
+        return this._controller;
     }
 
     get middleware(): Array<(req: Request, res: Response, next: NextFunction) => any> {
@@ -44,14 +34,5 @@ export default class Route {
     set middleware(value: Array<(req: Request, res: Response, next: NextFunction) => any>) {
         this._middleware = value;
     }
-
-    get controller(): (req: Request, res: Response) => void {
-        return this._controller;
-    }
-
-    set controller(value: (req: Request, res: Response) => void) {
-        this._controller = value;
-    }
-
 
 }

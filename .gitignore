@@ -5,3 +5,5 @@ npm-debug.log
 /tests/**/*.js
 /src/**/*.js
 /express-torch.d.ts
+/coverage/
+/.nyc_output/

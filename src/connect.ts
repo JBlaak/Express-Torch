@@ -18,10 +18,7 @@ export default function connect(app: Application,
 
     /* Transfer each route to Express */
     router.routes.forEach((route: Route) => {
-        let path = '';
-        if (prefix !== null) {
-            path += prefix;
-        }
+        let path = prefix;
         if (trim(route.path) != '') {
             path += '/' + trim(route.path);
         }
@@ -40,7 +37,7 @@ export default function connect(app: Application,
         connect(
             app,
             group,
-            prefix,
+            prefix === '' ? null : prefix,
             [...previousMiddleware, ...router.middleware]
         );
     });
