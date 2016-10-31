@@ -1,4 +1,4 @@
-Torch
+Express Torch
 =====
 
 [![Build Status](https://travis-ci.org/JBlaak/Torch.svg?branch=master)](https://travis-ci.org/JBlaak/Torch)
