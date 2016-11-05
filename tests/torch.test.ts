@@ -464,6 +464,36 @@ describe('Torch', function () {
 
                 /* Then */
                 expect(result).to.equal('/posts/123');
+            });
+            it('should find the correct path', function () {
+                /* Given */
+                const app: any = {
+                    get: (path: string, middleware: Array<(req: Request, res: Response, next: NextFunction) => any>, method: ((req: Request, res: Response) => void)) => {
+                    }
+                };
+
+                const routes = Torch(app as Application, (router: Router) => {
+                    router.get('/posts', {
+                        name: 'posts.index',
+                        controller: (req: any, res: any) => {
+                            /* The impl */
+                        }
+                    });
+                    router.get('/posts/:id', {
+                        name: 'posts.show',
+                        controller: (req: any, res: any) => {
+                            /* The impl */
+                        }
+                    });
+                });
+
+                /* When */
+                const result = routes.named('posts.show', {
+                    id: 123
+                });
+
+                /* Then */
+                expect(result).to.equal('/posts/123');
             })
         });
 
