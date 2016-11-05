@@ -7,7 +7,6 @@
     "strictNullChecks": true
   },
   "files": [
-    "./tests/torch.test.ts",
-    "./typings/index.d.ts"
+    "./tests/torch.test.ts"
   ]
 }

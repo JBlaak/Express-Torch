@@ -8,7 +8,6 @@
     "strictNullChecks": true
   },
   "files": [
-    "./src/torch.ts",
-    "./typings/index.d.ts"
+    "./src/torch.ts"
   ]
 }
