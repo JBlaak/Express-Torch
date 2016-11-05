@@ -136,6 +136,7 @@ export default class Router {
         const config = (controller as RouteConfig);
 
         const route = new Route(method, path, config.controller);
+        route.name = config.name;
         if(config.middleware) {
             route.middleware = config.middleware;
         }

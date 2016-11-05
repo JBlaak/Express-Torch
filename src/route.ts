@@ -5,6 +5,8 @@ export default class Route {
 
     private _path: string;
 
+    private _name: string|undefined;
+
     private _middleware: Array<(req: Request, res: Response, next: NextFunction) => any>;
 
     private _controller: (req: Request, res: Response) => void;
@@ -35,4 +37,11 @@ export default class Route {
         this._middleware = value;
     }
 
+    get name(): string|undefined {
+        return this._name;
+    }
+
+    set name(value: string|undefined) {
+        this._name = value;
+    }
 }
