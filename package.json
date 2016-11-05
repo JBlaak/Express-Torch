@@ -22,11 +22,14 @@
     "@types/express": "^4.0.33",
     "@types/mocha": "^2.2.32",
     "@types/node": "^6.0.46",
+    "@types/path-to-regexp": "^1.0.29",
     "chai": "^3.5.0",
     "dts-bundle": "^0.6.1",
     "mocha": "^3.1.2",
     "nyc": "^8.3.2",
     "typescript": "^2.0.6"
   },
-  "dependencies": {}
+  "dependencies": {
+    "path-to-regexp": "^1.6.0"
+  }
 }

@@ -117,3 +117,32 @@ Torch(app, (router) => {
 
 app.listen(3000);
 ```
+
+__Naming__
+
+Since urls can be subject to your client's requests you don't want to spread
+them all around your application as if they were static. Torch allows you to
+add a mapping so that some `name` will map to a path.
+
+```js
+import Express from 'express';
+import Torch from 'torch';
+import HomeController from './controllers/home';
+
+const app = Express();
+
+const routes = Torch(app, (router) => {
+    router.group({prefix: '/api'}, function(router) {
+        router.get('/posts/:id', {,
+            name: 'api.posts.show',
+            controller: HomeController.index
+        });
+    });
+});
+
+routes.named('api.posts.show',  { id: 123 });// will evaluate to /api/posts/123
+
+//... your other Express logic
+
+app.listen(3000);
+```
