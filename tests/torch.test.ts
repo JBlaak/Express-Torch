@@ -293,7 +293,7 @@ describe('Torch', function () {
             });
 
             /* Then */
-            expect(registeredMiddleware[0]).to.equal(middleware);
+            expect(registeredMiddleware[1]).to.equal(middleware);
         });
 
         it('Should add middleware from the group', function () {
@@ -320,7 +320,7 @@ describe('Torch', function () {
             });
 
             /* Then */
-            expect(registeredMiddleware[0]).to.equal(middleware);
+            expect(registeredMiddleware[1]).to.equal(middleware);
         });
 
         it('Should inherit middleware from distant group', function () {
@@ -349,7 +349,7 @@ describe('Torch', function () {
             });
 
             /* Then */
-            expect(registeredMiddleware[0]).to.equal(middleware);
+            expect(registeredMiddleware[1]).to.equal(middleware);
         });
 
         it('Should add middlewares in correct order', function () {
@@ -387,13 +387,13 @@ describe('Torch', function () {
             });
 
             /* Then */
-            expect(registeredMiddleware[0]).to.equal(a);
-            expect(registeredMiddleware[1]).to.equal(b);
-            expect(registeredMiddleware[2]).to.equal(c);
+            expect(registeredMiddleware[1]).to.equal(a);
+            expect(registeredMiddleware[2]).to.equal(b);
+            expect(registeredMiddleware[3]).to.equal(c);
         });
     })
 
-    describe('aggregated routes, i.e. Torche\'s result', function () {
+    describe('aggregated routes, i.e. Torches\' result', function () {
 
         it('should have flattened groups', function () {
             /* Given */
@@ -494,7 +494,37 @@ describe('Torch', function () {
 
                 /* Then */
                 expect(result).to.equal('/posts/123');
-            })
+            });
+            it('should add middleware to request to find path', function () {
+                /* Given */
+                let registeredMiddlewares: Array<(req: Request, res: Response, next: NextFunction) => any> = [];
+                const app: any = {
+                    get: (path: string, middleware: Array<(req: Request, res: Response, next: NextFunction) => any>, method: ((req: Request, res: Response) => void)) => {
+                        registeredMiddlewares = middleware;
+                    }
+                };
+
+                const routes = Torch(app as Application, (router: Router) => {
+                    router.get('/home', {
+                        name: 'home',
+                        controller: (req: any, res: any) => {
+                            /* The impl */
+                        }
+                    });
+                });
+               
+                /* When */
+                const req: any = {};
+                const res: any = {};
+                for (var i = 0; i < registeredMiddlewares.length; i++) {
+                    registeredMiddlewares[i](req, res, () => {
+                    });
+                }
+                const result = req.routes.named('home');
+
+                /* Then */
+                expect(result).to.equal('/home');
+            });
         });
 
     });

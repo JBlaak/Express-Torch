@@ -8,7 +8,7 @@ export default class Router {
     /**
      * Configuration of this group, will be applied nested when transferred to Expresss
      */
-    private config?: GroupConfig;
+    private _config: GroupConfig;
 
     /**
      * List of all groups beneath this one
@@ -24,8 +24,8 @@ export default class Router {
      * Setup configuration
      * @param config
      */
-    constructor(config?: GroupConfig) {
-        this.config = config;
+    constructor(config: GroupConfig) {
+        this._config = config;
     }
 
     /**
@@ -47,10 +47,7 @@ export default class Router {
      * @returns {string|string}
      */
     get middleware(): Array<(req: Request, res: Response, next: NextFunction) => any> {
-        if (this.config) {
-            return this.config.middleware || [];
-        }
-        return [];
+        return this._config.middleware || [];
     }
 
     /**
@@ -58,10 +55,7 @@ export default class Router {
      * @returns {string|null}
      */
     get prefix():string|null {
-        if (this.config) {
-            return this.config.prefix || null;
-        }
-        return null;
+        return this._config.prefix || null;
     }
 
     /**

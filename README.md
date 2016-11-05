@@ -145,4 +145,12 @@ routes.named('api.posts.show',  { id: 123 });// will evaluate to /api/posts/123
 //... your other Express logic
 
 app.listen(3000);
+
+/**** in ./controllers/home/.js ****/
+
+{
+    index: (req, res) => {
+        req.routes.named('api.posts.show', {id: 123}) 
+    }
+}
 ```

@@ -9,13 +9,6 @@ export default class Routes {
     private _routes: Array<Route>;
 
     /**
-     * @param listing
-     */
-    constructor(listing) {
-        this._routes = listing;
-    }
-
-    /**
      * Get url of named route
      * @param name
      * @param args
@@ -27,6 +20,10 @@ export default class Routes {
                 return compile(this._routes[key].path)(args);
             }
         }
+    }
+
+    set routes(value: Array<Route>) {
+        this._routes = value;
     }
 
     /**
