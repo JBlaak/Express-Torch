@@ -3,7 +3,9 @@ node_modules
 build
 npm-debug.log
 /tests/**/*.js
+/tests/**/*.js.map
 /src/**/*.js
+/src/**/*.js.map
 /express-torch.d.ts
 /coverage/
 /.nyc_output/

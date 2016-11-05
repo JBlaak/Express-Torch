@@ -267,7 +267,7 @@ describe('Torch', function () {
 
     it('Should pass the middleware', function () {
         /* Given */
-        let registeredMiddleware: (Array<(req: Request, res: Response, next: NextFunction) => any>)|null = null;
+        let registeredMiddleware: (Array<(req: Request, res: Response, next: NextFunction) => any>) = [];
 
         const app: any = {
             get: (path: string, middleware: Array<(req: Request, res: Response, next: NextFunction) => any>, method: ((req: Request, res: Response) => void)) => {
@@ -295,7 +295,7 @@ describe('Torch', function () {
 
     it('Should add middleware from the group', function () {
         /* Given */
-        let registeredMiddleware: (Array<(req: Request, res: Response, next: NextFunction) => any>)|null = null;
+        let registeredMiddleware: (Array<(req: Request, res: Response, next: NextFunction) => any>) = [];
 
         const app: any = {
             get: (path: string, middleware: Array<(req: Request, res: Response, next: NextFunction) => any>, method: ((req: Request, res: Response) => void)) => {
@@ -322,7 +322,7 @@ describe('Torch', function () {
 
     it('Should inherit middleware from distant group', function () {
         /* Given */
-        let registeredMiddleware: (Array<(req: Request, res: Response, next: NextFunction) => any>)|null = null;
+        let registeredMiddleware: (Array<(req: Request, res: Response, next: NextFunction) => any>) = [];
 
         const app: any = {
             get: (path: string, middleware: Array<(req: Request, res: Response, next: NextFunction) => any>, method: ((req: Request, res: Response) => void)) => {
@@ -351,7 +351,7 @@ describe('Torch', function () {
 
     it('Should add middlewares in correct order', function () {
         /* Given */
-        let registeredMiddleware: (Array<(req: Request, res: Response, next: NextFunction) => any>)|null = null;
+        let registeredMiddleware: (Array<(req: Request, res: Response, next: NextFunction) => any>) = [];
 
         const app: any = {
             get: (path: string, middleware: Array<(req: Request, res: Response, next: NextFunction) => any>, method: ((req: Request, res: Response) => void)) => {
