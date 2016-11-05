@@ -11,7 +11,7 @@
   "scripts": {
     "prepublish": "npm run build",
     "build": "rm -rf ./build && tsc && npm run declarations && npm run declaration-bundle",
-    "pretest": "tsc --target es5 ./typings/index.d.ts ./tests/torch.test.ts",
+    "pretest": "tsc --project tsconfig.test.json",
     "test": "nyc --reporter=lcov --reporter=text --check-coverage --lines 100  --functions 100 --branches 100 mocha tests --recursive",
     "declarations": "tsc --declaration",
     "declaration-bundle": "dts-bundle --name express-torch --out ./express-torch.d.ts --main ./build/torch.d.ts && mv ./build/express-torch.d.ts ./express-torch.d.ts"
