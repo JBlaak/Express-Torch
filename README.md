@@ -3,7 +3,7 @@ Express Torch
 
 [![Build Status](https://travis-ci.org/JBlaak/Express-Torch.svg?branch=master)](https://travis-ci.org/JBlaak/Express-Torch)
 
-A more elegant way of specifying your Express routes.
+Expressive and maintainable routes for Express.js.
 
 Running the example
 -----
