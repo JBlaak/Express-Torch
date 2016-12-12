@@ -14,7 +14,7 @@ you can set it up as follows:
 ```bash
 $ cd ./example
 $ yarn
-$ npm start
+$ yarn start
 ```
 
 Now visit `http://localhost:3000` and take a look at `server.js`!
