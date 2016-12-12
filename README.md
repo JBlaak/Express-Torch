@@ -127,7 +127,7 @@ add a mapping so that some `name` will map to a path.
 ```js
 import Express from 'express';
 import Torch from 'torch';
-import HomeController from './controllers/home';
+import PostsController from './controllers/posts';
 
 const app = Express();
 
@@ -135,7 +135,7 @@ const routes = Torch(app, (router) => {
     router.group({prefix: '/api'}, function(router) {
         router.get('/posts/:id', {,
             name: 'api.posts.show',
-            controller: HomeController.index
+            controller: PostsController.show
         });
     });
 });
@@ -146,7 +146,7 @@ routes.named('api.posts.show',  { id: 123 });// will evaluate to /api/posts/123
 
 app.listen(3000);
 
-/**** in ./controllers/home/.js ****/
+/**** in ./controllers/posts.js ****/
 
 {
     index: (req, res) => {
