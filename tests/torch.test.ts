@@ -1,7 +1,7 @@
-import {Application, Request, Response, NextFunction} from "express";
+import {Application, Request, Response, NextFunction} from 'express';
 import {expect} from 'chai';
-import Torch from "../src/torch";
-import Router from "../src/router";
+import Torch from '../src/torch';
+import Router from '../src/router';
 
 describe('Torch', function () {
 
@@ -104,6 +104,39 @@ describe('Torch', function () {
             /* Then */
             expect(registeredPath).to.equal('/posts/:id');
             expect(registeredMethod).to.equal(method);
+        });
+
+        it('Should throw an error when trying to register an unkonown HTTP verb ', function () {
+            /* Given */
+            let registeredPath: string|null = null;
+            let registeredMethod: ((req: Request, res: Response) => void)|null = null;
+
+            const app: any = {
+                get: (path: string, middleware: Array<(req: Request, res: Response, next: NextFunction) => any>, method: ((req: Request, res: Response) => void)) => {
+                    registeredPath = path;
+                    registeredMethod = method;
+                }
+            };
+
+            /* When */
+            let throwsAnError: boolean = false;
+            const method = (req: any, res: any) => {
+                /* The impl */
+            };
+            try {
+                Torch(app as Application, (router: Router) => {
+                    router.get('/home', {
+                        controller: method,
+                        method: 'asdf'
+                    });
+
+                });
+            } catch (e) {
+                throwsAnError = true;
+            }
+
+            /* Then */
+            expect(throwsAnError).to.equal(true);
         });
 
         it('Should allow for registering by passing a config', function () {
@@ -391,7 +424,7 @@ describe('Torch', function () {
             expect(registeredMiddleware[2]).to.equal(b);
             expect(registeredMiddleware[3]).to.equal(c);
         });
-    })
+    });
 
     describe('aggregated routes, i.e. Torches\' result', function () {
 
@@ -512,7 +545,7 @@ describe('Torch', function () {
                         }
                     });
                 });
-               
+
                 /* When */
                 const req: any = {};
                 const res: any = {};

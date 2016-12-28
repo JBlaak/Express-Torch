@@ -1,4 +1,5 @@
-import {Request, Response, NextFunction} from "express";
+import {Request, Response} from 'express';
+import {Middleware} from './models/middleware';
 
 export default class Route {
     private _method: string;
@@ -7,7 +8,7 @@ export default class Route {
 
     private _name: string|undefined;
 
-    private _middleware: Array<(req: Request, res: Response, next: NextFunction) => any>;
+    private _middleware: Middleware[];
 
     private _controller: (req: Request, res: Response) => void;
 
@@ -29,11 +30,11 @@ export default class Route {
         return this._controller;
     }
 
-    get middleware(): Array<(req: Request, res: Response, next: NextFunction) => any> {
+    get middleware(): Middleware[] {
         return this._middleware || [];
     }
 
-    set middleware(value: Array<(req: Request, res: Response, next: NextFunction) => any>) {
+    set middleware(value: Middleware[]) {
         this._middleware = value;
     }
 
@@ -44,4 +45,4 @@ export default class Route {
     set name(value: string|undefined) {
         this._name = value;
     }
-}
+};

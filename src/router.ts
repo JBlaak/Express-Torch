@@ -1,7 +1,8 @@
-import {Request, Response, NextFunction} from "express";
-import {GroupConfig} from "./models/group_config";
-import {RouteConfig} from "./models/route_config";
-import Route from "./route";
+import {Request, Response, NextFunction} from 'express';
+import {GroupConfig} from './models/group_config';
+import {RouteConfig} from './models/route_config';
+import Route from './route';
+import {Controller} from './models/controller';
 
 export default class Router {
 
@@ -13,12 +14,12 @@ export default class Router {
     /**
      * List of all groups beneath this one
      */
-    private _groups: Array<Router> = [];
+    private _groups: Router[] = [];
 
     /**
      * The different routes applicable in this router
      */
-    private _routes: Array<Route> = [];
+    private _routes: Route[] = [];
 
     /**
      * Setup configuration
@@ -31,14 +32,14 @@ export default class Router {
     /**
      * Getter for groups
      */
-    get groups(): Array<Router> {
+    get groups(): Router[] {
         return this._groups;
     }
 
     /**
      * Getter for routes
      */
-    get routes(): Array<Route> {
+    get routes(): Route[] {
         return this._routes;
     }
 
@@ -54,7 +55,7 @@ export default class Router {
      * Get prefix for routes of this router
      * @returns {string|null}
      */
-    get prefix():string|null {
+    get prefix(): string|null {
         return this._config.prefix || null;
     }
 
@@ -63,7 +64,7 @@ export default class Router {
      * @param path
      * @param config
      */
-    public get(path: string, config: ((req: Request, res: Response) => void) | RouteConfig) {
+    public get(path: string, config: Controller | RouteConfig) {
         const route = this.toRoute('get', path, config);
 
         this._routes.push(route);
@@ -74,7 +75,7 @@ export default class Router {
      * @param path
      * @param config
      */
-    public post(path: string, config: ((req: Request, res: Response) => void) | RouteConfig) {
+    public post(path: string, config: Controller | RouteConfig) {
         const route = this.toRoute('post', path, config);
 
         this._routes.push(route);
@@ -85,7 +86,7 @@ export default class Router {
      * @param path
      * @param config
      */
-    public put(path: string, config: ((req: Request, res: Response) => void) | RouteConfig) {
+    public put(path: string, config: Controller | RouteConfig) {
         const route = this.toRoute('put', path, config);
 
         this._routes.push(route);
@@ -96,7 +97,7 @@ export default class Router {
      * @param path
      * @param config
      */
-    public delete(path: string, config: ((req: Request, res: Response) => void) | RouteConfig) {
+    public delete(path: string, config: Controller | RouteConfig) {
         const route = this.toRoute('delete', path, config);
 
         this._routes.push(route);
@@ -122,19 +123,23 @@ export default class Router {
      * @param controller
      * @returns Route
      */
-    private toRoute(method: string, path: string, controller: ((req: Request, res: Response) => void) | RouteConfig): Route {
+    private toRoute(method: string, path: string, controller: Controller | RouteConfig): Route {
         if (typeof controller === 'function') {
-            return new Route(method, path, (controller as ((req: Request, res: Response) => void)));
+            return new Route(method, path, (controller as Controller));
         }
 
         const config = (controller as RouteConfig);
 
-        const route = new Route(method, path, config.controller);
+        const route = new Route(
+            config.method ? config.method : method,
+            path,
+            config.controller
+        );
         route.name = config.name;
-        if(config.middleware) {
+        if (config.middleware) {
             route.middleware = config.middleware;
         }
 
         return route;
     }
-}
+};
