@@ -9,10 +9,12 @@
     "url": "git://github.com/JBlaak/Torch.git"
   },
   "scripts": {
-    "prepublish": "npm run build",
-    "build": "rm -rf ./build && tsc && npm run declarations && npm run declaration-bundle",
+    "prepublish": "yarn build",
+    "build": "rm -rf ./build && tsc && yarn declarations && yarn declaration-bundle",
     "pretest": "tsc --project tsconfig.test.json",
-    "test": "nyc --reporter=lcov --reporter=text --check-coverage --lines 100  --functions 100 --branches 100 mocha tests --recursive",
+    "test": "yarn lint && yarn mocha",
+    "lint": "tslint ./src/*.ts ./src/**/*.ts",
+    "mocha": "nyc --reporter=lcov --reporter=text --check-coverage --lines 100  --functions 100 --branches 100 mocha tests --recursive",
     "declarations": "tsc --declaration",
     "declaration-bundle": "dts-bundle --name express-torch --out ./express-torch.d.ts --main ./build/torch.d.ts && mv ./build/express-torch.d.ts ./express-torch.d.ts"
   },
@@ -27,6 +29,7 @@
     "dts-bundle": "^0.6.1",
     "mocha": "^3.1.2",
     "nyc": "^8.3.2",
+    "tslint": "^4.2.0",
     "typescript": "^2.0.6"
   },
   "dependencies": {

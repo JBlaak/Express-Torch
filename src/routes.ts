@@ -6,7 +6,11 @@ export default class Routes {
     /**
      * List of all routes in the application
      */
-    private _routes: Array<Route>;
+    private _routes: Route[];
+
+    set routes(value: Route[]) {
+        this._routes = value;
+    }
 
     /**
      * Get url of named route
@@ -14,23 +18,19 @@ export default class Routes {
      * @param args
      * @returns {string|undefined}
      */
-    named(name: string, args: Object = {}): string|undefined {
-        for (var key in this._routes) {
+    public named(name: string, args: Object = {}): string|undefined {
+        for (let key in this._routes) {
             if (this._routes[key].name === name) {
                 return compile(this._routes[key].path)(args);
             }
         }
     }
 
-    set routes(value: Array<Route>) {
-        this._routes = value;
-    }
-
     /**
      * Get a listing of all routes
-     * @returns {Array<Route>}
+     * @returns {Route[]}
      */
-    all() {
+    public all() {
         return this._routes;
     }
 }

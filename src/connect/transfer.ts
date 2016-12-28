@@ -1,4 +1,4 @@
-import {Application, Request, Response, NextFunction} from "express";
+import {Application, Request, Response, NextFunction} from 'express';
 
 /**
  * Transfer the different methods to the Express application
@@ -26,6 +26,7 @@ export default function transfer(app: Application,
         case 'delete':
             app.delete(path, middleware, controller);
             break;
+        default:
+            throw new Error('Unknown method requested for transfer: ' + method);
     }
 };
-

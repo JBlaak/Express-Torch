@@ -1,16 +1,17 @@
-import {Application, Request, Response, NextFunction} from "express";
-import Route from "./route";
-import Router from "./router";
-import transfer from "./connect/transfer";
-import {trim} from "./util/trim";
+import {Application} from 'express';
+import Route from './route';
+import Router from './router';
+import transfer from './connect/transfer';
+import {trim} from './util/trim';
+import {Middleware} from './models/middleware';
 
 export default function connect(app: Application,
                                 router: Router,
                                 previouxPrefix: string|null = null,
-                                previousMiddleware: Array<(req: Request, res: Response, next: NextFunction) => any> = []): Array<Route> {
+                                previousMiddleware: Middleware[] = []): Route[] {
 
-    let routes: Array<Route> = [];
-    
+    let routes: Route[] = [];
+
     let prefix = '';
     if (router.prefix !== null && previouxPrefix !== null) {
         prefix = previouxPrefix + '/' + trim(router.prefix);
@@ -21,7 +22,7 @@ export default function connect(app: Application,
     /* Transfer each route to Express */
     router.routes.forEach((route: Route) => {
         let path = prefix;
-        if (trim(route.path) != '') {
+        if (trim(route.path) !== '') {
             path += '/' + trim(route.path);
         }
 
@@ -52,4 +53,4 @@ export default function connect(app: Application,
     });
 
     return routes;
-}
+};
