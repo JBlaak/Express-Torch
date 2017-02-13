@@ -29,7 +29,7 @@ specify your routes.
 
 ```js
 import Express from 'express';
-import Torch from 'torch';
+import Torch from 'express-torch';
 import HomeController from './controllers/home';
 
 const app = Express();
@@ -51,7 +51,7 @@ your `/api` routes.
 
 ```js
 import Express from 'express';
-import Torch from 'torch';
+import Torch from 'express-torch';
 import HomeController from './controllers/home';
 
 const app = Express();
@@ -76,7 +76,7 @@ so that they stack together without you having to specify them per route
 
 ```js
 import Express from 'express';
-import Torch from 'torch';
+import Torch from 'express-torch';
 import HomeController from './controllers/home';
 
 const app = Express();
@@ -101,7 +101,7 @@ if you want, you can still apply middleware to a single route
 
 ```js
 import Express from 'express';
-import Torch from 'torch';
+import Torch from 'express-torch';
 import HomeController from './controllers/home';
 
 const app = Express();
@@ -126,7 +126,7 @@ add a mapping so that some `name` will map to a path.
 
 ```js
 import Express from 'express';
-import Torch from 'torch';
+import Torch from 'express-torch';
 import PostsController from './controllers/posts';
 
 const app = Express();
