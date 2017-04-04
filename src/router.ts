@@ -3,6 +3,7 @@ import {GroupConfig} from './models/group_config';
 import {RouteConfig} from './models/route_config';
 import Route from './route';
 import {Controller} from './models/controller';
+import {Middleware} from './models/middleware';
 
 export default class Router {
 
@@ -47,7 +48,7 @@ export default class Router {
      * Get prefix for routes of this router
      * @returns {string|string}
      */
-    get middleware(): Array<(req: Request, res: Response, next: NextFunction) => any> {
+    get middleware(): Middleware[] {
         return this._config.middleware || [];
     }
 

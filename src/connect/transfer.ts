@@ -1,4 +1,6 @@
 import {Application, Request, Response, NextFunction} from 'express';
+import {Controller} from "../models/controller";
+import {Middleware} from '../models/middleware';
 
 /**
  * Transfer the different methods to the Express application
@@ -11,8 +13,8 @@ import {Application, Request, Response, NextFunction} from 'express';
 export default function transfer(app: Application,
                                  method: string,
                                  path: string,
-                                 middleware: Array<(req: Request, res: Response, next: NextFunction) => any>,
-                                 controller: ((req: Request, res: Response) => void)) {
+                                 middleware: Middleware[],
+                                 controller: Controller) {
     switch (method) {
         case 'get':
             app.get(path, middleware, controller);
