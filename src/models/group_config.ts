@@ -1,6 +1,7 @@
 import {Request, Response, NextFunction} from 'express';
+import {Middleware} from './middleware';
 
 export interface GroupConfig {
-    middleware?: Array<(req: Request, res: Response, next: NextFunction) => any>;
+    middleware?: Middleware[];
     prefix?: string;
 }

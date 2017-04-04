@@ -1,5 +1,6 @@
-import {Request, Response} from 'express';
+import {Request, Response, NextFunction} from 'express';
 import {Middleware} from './models/middleware';
+import {Controller} from './models/controller';
 
 export default class Route {
     private _method: string;
@@ -10,9 +11,9 @@ export default class Route {
 
     private _middleware: Middleware[];
 
-    private _controller: (req: Request, res: Response) => void;
+    private _controller: Controller;
 
-    constructor(method: string, path: string, controller: (req: Request, res: Response) => void) {
+    constructor(method: string, path: string, controller: Controller) {
         this._method = method;
         this._path = path;
         this._controller = controller;
@@ -26,7 +27,7 @@ export default class Route {
         return this._path;
     }
 
-    get controller(): (req: Request, res: Response) => void {
+    get controller(): Controller {
         return this._controller;
     }
 
