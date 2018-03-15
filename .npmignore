@@ -10,4 +10,6 @@ npm-debug.log
 build/**/*.ts
 tsconfig.json
 typings.json
+coverage
+.nyc_output
 
