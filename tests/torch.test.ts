@@ -275,6 +275,60 @@ describe('Torch', function () {
             expect(registeredPath).to.equal('/api/posts/:id/update');
         });
 
+        it('Should inherit prefix of higher group to lower group', function () {
+            /* Given */
+            let registeredPath: string|null = null;
+
+            const app: any = {
+                get: (path: string, middleware: Array<(req: Request, res: Response, next: NextFunction) => any>, method: ((req: Request, res: Response) => void)) => {
+                    registeredPath = path;
+                }
+            };
+
+            /* When */
+            const method = (req: any, res: any) => {
+                /* The impl */
+            };
+            Torch(app as Application, (router: Router) => {
+                router.group({prefix: 'api'}, (router: Router) => {
+                    router.group({}, (router: Router) => {
+                        router.get('/:id/update', method);
+                    });
+                });
+            });
+
+            /* Then */
+            expect(registeredPath).to.equal('/api/:id/update');
+        });
+
+        it('Should inherit prefix of multiple higher groups to lower group', function () {
+            /* Given */
+            let registeredPath: string|null = null;
+
+            const app: any = {
+                get: (path: string, middleware: Array<(req: Request, res: Response, next: NextFunction) => any>, method: ((req: Request, res: Response) => void)) => {
+                    registeredPath = path;
+                }
+            };
+
+            /* When */
+            const method = (req: any, res: any) => {
+                /* The impl */
+            };
+            Torch(app as Application, (router: Router) => {
+                router.group({prefix: 'api'}, (router: Router) => {
+                    router.group({}, (router: Router) => {
+                        router.group({}, (router: Router) => {
+                            router.get('/:id/update', method);
+                        });
+                    });
+                });
+            });
+
+            /* Then */
+            expect(registeredPath).to.equal('/api/:id/update');
+        });
+
         it('Should allow for registering a route with a prefix from two groups without a path', function () {
             /* Given */
             let registeredPath: string|null = null;

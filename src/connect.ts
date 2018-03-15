@@ -7,21 +7,22 @@ import {Middleware} from './models/middleware';
 
 export default function connect(app: Application,
                                 router: Router,
-                                previouxPrefix: string|null = null,
+                                previouxPrefix: string[] = [],
                                 previousMiddleware: Middleware[] = []): Route[] {
 
     let routes: Route[] = [];
 
-    let prefix = '';
-    if (router.prefix !== null && previouxPrefix !== null) {
-        prefix = previouxPrefix + '/' + trim(router.prefix);
-    } else if (router.prefix !== null) {
-        prefix = '/' + trim(router.prefix);
+    let prefix = [...previouxPrefix];
+    if (router.prefix !== null) {
+        prefix.push(router.prefix.replace(/^\/|\/$/g, ''));
     }
 
     /* Transfer each route to Express */
     router.routes.forEach((route: Route) => {
-        let path = prefix;
+        let path = '';
+        if (prefix.length > 0) {
+            path += '/' + prefix.join('/');
+        }
         if (trim(route.path) !== '') {
             path += '/' + trim(route.path);
         }
@@ -47,7 +48,7 @@ export default function connect(app: Application,
         routes = [...routes, ...connect(
             app,
             group,
-            prefix === '' ? null : prefix,
+            prefix,
             [...previousMiddleware, ...router.middleware]
         )];
     });
