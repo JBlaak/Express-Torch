@@ -4,6 +4,7 @@ import transfer from './connect/transfer';
 import {Middleware} from './models/middleware';
 import Route from './route';
 import Router from './router';
+import {constrain} from './util/constrain_path';
 import {trim} from './util/trim';
 
 export default function connect(app: Application,
@@ -31,14 +32,7 @@ export default function connect(app: Application,
         /* Add where constraints */
         const constraints = route.getConstraints();
         if (constraints !== undefined) {
-            for (let key in constraints) {
-                // Tell istanbul to ignore the else branch, else the code coverage will go below 100%
-                // https://github.com/gotwarlost/istanbul/blob/master/ignoring-code-for-coverage.md#ignore-an-else-path
-                /* istanbul ignore else  */
-                if (constraints.hasOwnProperty(key)) {
-                    path = path.replace(key, key + constraints[key]);
-                }
-            }
+            path = constrain(path, constraints);
         }
 
         /* Transfer to Express */

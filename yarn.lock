@@ -31,13 +31,9 @@
   version "2.2.32"
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-2.2.32.tgz#dda0da6eaf2195d2ff808f42a1725b1a19e7ed69"
 
-"@types/node", "@types/node@*":
+"@types/node@*":
   version "6.0.46"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-6.0.46.tgz#8d9e48572831f05b11cc4c793754d43437219d62"
-
-"@types/path-to-regexp":
-  version "1.0.29"
-  resolved "https://registry.yarnpkg.com/@types/path-to-regexp/-/path-to-regexp-1.0.29.tgz#61428c3738cd1dcee1571316dd7d02d13aac6e62"
 
 "@types/serve-static@*":
   version "1.7.31"
@@ -765,10 +761,6 @@ is-utf8@^0.2.0:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/is-utf8/-/is-utf8-0.2.1.tgz#4b0da1442104d1b336340e80797e865cf39f7d72"
 
-isarray@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/isarray/-/isarray-0.0.1.tgz#8a18acfca9a8f4177e09abfc6038939b05d1eedf"
-
 isarray@1.0.0, isarray@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/isarray/-/isarray-1.0.0.tgz#bb935d48582cba168c06834957a54a3e07124f11"
@@ -1157,11 +1149,9 @@ path-parse@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/path-parse/-/path-parse-1.0.5.tgz#3c1adf871ea9cd6c9431b6ea2bd74a0ff055c4c1"
 
-path-to-regexp:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-1.6.0.tgz#4c59cfeab5e360a2657b180730a4bb4582ecec5b"
-  dependencies:
-    isarray "0.0.1"
+path-to-regexp@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-2.2.0.tgz#80f0ff45c1e0e641da74df313644eaf115050972"
 
 path-type@^1.0.0:
   version "1.1.0"

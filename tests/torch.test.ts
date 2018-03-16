@@ -635,7 +635,7 @@ describe('Torch', function () {
             };
             Torch(app as Application, (router: Router) => {
                 router.get('/home/:id', method).where({
-                    ':id': '(\\d+)'
+                    'id': '(\\d+)'
                 });
             });
 
@@ -662,8 +662,8 @@ describe('Torch', function () {
             };
             Torch(app as Application, (router: Router) => {
                 router.post('/home/:id/:postId', method).where({
-                    ':id': '(\\d+)',
-                    ':postId': '(1|2|3)'
+                    'id': '(\\d+)',
+                    'postId': '(1|2|3)'
                 });
             });
 
@@ -689,19 +689,20 @@ describe('Torch', function () {
                 /* The impl */
             };
             Torch(app as Application, (router: Router) => {
-                router.group({ prefix: '/:foo' }, router => {
+                router.group({ prefix: ':foo' }, router => {
                     router.group({ prefix: '/:bar' }, router => {
                         router.put('/home/:id/:postId', method).where({
-                            ':id': '(\\d+)',
-                            ':postId': '(1|2|3)',
-                            ':foo': '[0-9]+'
+                            'id': '(\\d+)',
+                            'postId': '(1|2|3)',
+                            'foo': '[0-9]+',
+                            'bar': '[a-b]'
                         });
                     });
                 });
             });
 
             /* Then */
-            expect(registeredPath).to.equal('/:foo[0-9]+/:bar/home/:id(\\d+)/:postId(1|2|3)');
+            expect(registeredPath).to.equal('/:foo[0-9]+/:bar[a-b]/home/:id(\\d+)/:postId(1|2|3)');
             expect(registeredMethod).to.equal(method);
         });
 
@@ -723,14 +724,69 @@ describe('Torch', function () {
             };
             Torch(app as Application, (router: Router) => {
                 router.delete('/:id/:postId', method).where({
-                    ':id': '(\\d+)',
-                    ':postId': '(1|2|3)',
-                    ':foo': '[0-9]+'
+                    'id': '(\\d+)',
+                    'postId': '(1|2|3)',
+                    'foo': '[0-9]+'
                 });
             });
 
             /* Then */
             expect(registeredPath).to.equal('/:id(\\d+)/:postId(1|2|3)');
+            expect(registeredMethod).to.equal(method);
+        });
+
+        it('should not screw up if the order of variables is confusing', function () {
+            /* Given */
+            let registeredPath: string | null = null;
+            let registeredMethod: ((req: Request, res: Response) => void) | null = null;
+
+            const app: any = {
+                delete: (path: string, middleware: Array<(req: Request, res: Response, next: NextFunction) => any>, method: ((req: Request, res: Response) => void)) => {
+                    registeredPath = path;
+                    registeredMethod = method;
+                }
+            };
+
+            /* When */
+            const method = (req: any, res: any) => {
+                /* The impl */
+            };
+            Torch(app as Application, (router: Router) => {
+                router.delete('/:identifier/:id', method).where({
+                    'id': '(\\d+)',
+                    'identifier': '(\\d+)'
+                });
+            });
+
+            /* Then */
+            expect(registeredPath).to.equal('/:identifier(\\d+)/:id(\\d+)');
+            expect(registeredMethod).to.equal(method);
+        });
+
+        it('should leave a token alone if no constraint is specified', function () {
+            /* Given */
+            let registeredPath: string | null = null;
+            let registeredMethod: ((req: Request, res: Response) => void) | null = null;
+
+            const app: any = {
+                delete: (path: string, middleware: Array<(req: Request, res: Response, next: NextFunction) => any>, method: ((req: Request, res: Response) => void)) => {
+                    registeredPath = path;
+                    registeredMethod = method;
+                }
+            };
+
+            /* When */
+            const method = (req: any, res: any) => {
+                /* The impl */
+            };
+            Torch(app as Application, (router: Router) => {
+                router.delete('/:identifier/:id', method).where({
+                    'id': '(\\d+)'
+                });
+            });
+
+            /* Then */
+            expect(registeredPath).to.equal('/:identifier/:id(\\d+)');
             expect(registeredMethod).to.equal(method);
         });
     });
