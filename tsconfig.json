@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "outDir": "./build",
+    "lib": ["es2015"],
     "sourceMap": true,
     "moduleResolution": "node",
     "module": "commonjs",

@@ -1,7 +1,8 @@
-import {Application, Request, Response, NextFunction} from 'express';
 import {expect} from 'chai';
-import Torch from '../src/torch';
+import {Application, NextFunction, Request, Response} from 'express';
+
 import Router from '../src/router';
+import Torch from '../src/torch';
 
 describe('Torch', function () {
 
