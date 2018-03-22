@@ -1,9 +1,8 @@
-import {Request, Response, NextFunction} from 'express';
+import {Controller} from './models/controller';
 import {GroupConfig} from './models/group_config';
+import {Middleware} from './models/middleware';
 import {RouteConfig} from './models/route_config';
 import Route from './route';
-import {Controller} from './models/controller';
-import {Middleware} from './models/middleware';
 
 export default class Router {
 
@@ -65,10 +64,12 @@ export default class Router {
      * @param path
      * @param config
      */
-    public get(path: string, config: Controller | RouteConfig) {
+    public get(path: string, config: Controller | RouteConfig): Route {
         const route = this.toRoute('get', path, config);
 
         this._routes.push(route);
+
+        return route;
     }
 
     /**
@@ -76,10 +77,12 @@ export default class Router {
      * @param path
      * @param config
      */
-    public post(path: string, config: Controller | RouteConfig) {
+    public post(path: string, config: Controller | RouteConfig): Route {
         const route = this.toRoute('post', path, config);
 
         this._routes.push(route);
+
+        return route;
     }
 
     /**
@@ -87,10 +90,12 @@ export default class Router {
      * @param path
      * @param config
      */
-    public put(path: string, config: Controller | RouteConfig) {
+    public put(path: string, config: Controller | RouteConfig): Route {
         const route = this.toRoute('put', path, config);
 
         this._routes.push(route);
+
+        return route;
     }
 
     /**
@@ -98,10 +103,12 @@ export default class Router {
      * @param path
      * @param config
      */
-    public delete(path: string, config: Controller | RouteConfig) {
+    public delete(path: string, config: Controller | RouteConfig): Route {
         const route = this.toRoute('delete', path, config);
 
         this._routes.push(route);
+
+        return route;
     }
 
     /**

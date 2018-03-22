@@ -154,3 +154,25 @@ app.listen(3000);
     }
 }
 ```
+
+__Constraints__
+
+Most of the time we want to constrain our routes their variables, for example an `:id` should in some applications only match a number. Express allows us to use regex inside a route path but those make the route look bloated and hard to read. To still be able to constrain our routes but still keep them readable Torch allows us to define the constraints in an extra method.
+
+```js
+import Express from 'express';
+import Torch from 'express-torch';
+import PostsController from './controllers/posts';
+
+const app = Express();
+
+const routes = Torch(app, (router) => {
+    router.group({prefix: '/api'}, function(router) {
+        router.get('/posts/:id', PostsController.show).where({'id', '(\\d+)'}); // will evaluate to /api/posts/:id(\\d+)
+    });
+});
+
+//... your other Express logic
+
+app.listen(3000);
+```

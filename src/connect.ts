@@ -1,9 +1,11 @@
 import {Application} from 'express';
+
+import transfer from './connect/transfer';
+import {Middleware} from './models/middleware';
 import Route from './route';
 import Router from './router';
-import transfer from './connect/transfer';
+import {constrain} from './util/constrain_path';
 import {trim} from './util/trim';
-import {Middleware} from './models/middleware';
 
 export default function connect(app: Application,
                                 router: Router,
@@ -14,7 +16,7 @@ export default function connect(app: Application,
 
     let prefix = [...previouxPrefix];
     if (router.prefix !== null) {
-        prefix.push(router.prefix.replace(/^\/|\/$/g, ''));
+        prefix.push(trim(router.prefix));
     }
 
     /* Transfer each route to Express */
@@ -25,6 +27,12 @@ export default function connect(app: Application,
         }
         if (trim(route.path) !== '') {
             path += '/' + trim(route.path);
+        }
+
+        /* Add where constraints */
+        const constraints = route.getConstraints();
+        if (constraints !== undefined) {
+            path = constrain(path, constraints);
         }
 
         /* Transfer to Express */

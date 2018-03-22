@@ -1,13 +1,14 @@
-import {Request, Response, NextFunction} from 'express';
-import {Middleware} from './models/middleware';
 import {Controller} from './models/controller';
+import {Middleware} from './models/middleware';
 
 export default class Route {
     private _method: string;
 
     private _path: string;
 
-    private _name: string|undefined;
+    private _name: string | undefined;
+
+    private _constraints: { [key: string]: string } | undefined;
 
     private _middleware: Middleware[];
 
@@ -45,5 +46,13 @@ export default class Route {
 
     set name(value: string|undefined) {
         this._name = value;
+    }
+
+    public where(constraints: { [key: string]: string } | undefined) {
+        this._constraints = constraints;
+    }
+
+    public getConstraints(): {[key: string]: string} | undefined {
+        return this._constraints;
     }
 };
