@@ -790,4 +790,117 @@ describe('Torch', function () {
             expect(registeredMethod).to.equal(method);
         });
     });
+
+    describe('Binding routes to Express', function() {
+        describe('Context', function () {
+            it('Should be able to define on route level', function () {
+
+                /* Given */
+                type myMetaData = { blaat: string };
+
+                let registeredPath: string|null = null;
+                let registeredMethod: ((req: Request, res: Response) => void)|null = null;
+
+                const app: any = {
+                    get: (path: string, middleware: Array<(req: Request, res: Response, next: NextFunction) => any>, method: ((req: Request, res: Response) => void)) => {
+                        registeredPath = path;
+                        registeredMethod = method;
+                    }
+                };
+
+                class Foo {
+                    private test = 'hello';
+
+                    public method(req: Request, res: Response) {
+                        return this.test;
+                    }
+                }
+                const fooInstance = new Foo();
+
+                /* When */
+                const routes = Torch(app as Application, (router) => {
+                    router.get('/home', {
+                        controller: fooInstance.method,
+                        context: fooInstance
+                    });
+                });
+
+                /* Then */
+                expect(registeredPath).to.equal('/home');
+                expect((registeredMethod as any)(1 as any, 2 as any)).to.equal('hello');
+            });
+            it('Should be able to define at group level', function () {
+
+                /* Given */
+                type myMetaData = { blaat: string };
+
+                let registeredPath: string|null = null;
+                let registeredMethod: ((req: Request, res: Response) => void)|null = null;
+
+                const app: any = {
+                    get: (path: string, middleware: Array<(req: Request, res: Response, next: NextFunction) => any>, method: ((req: Request, res: Response) => void)) => {
+                        registeredPath = path;
+                        registeredMethod = method;
+                    }
+                };
+
+                class Foo {
+                    private test = 'hello';
+
+                    public method(req: Request, res: Response) {
+                        return this.test;
+                    }
+                }
+                const fooInstance = new Foo();
+
+                /* When */
+                const routes = Torch(app as Application, (router) => {
+                    router.group({ context: fooInstance }, (aRouter) => {
+                        aRouter.get('/home', fooInstance.method);
+                    });
+                });
+
+                /* Then */
+                expect(registeredPath).to.equal('/home');
+                expect((registeredMethod as any)(1 as any, 2 as any)).to.equal('hello');
+            });
+            it('Should inherit over groups', function () {
+
+                /* Given */
+                type myMetaData = { blaat: string };
+
+                let registeredPath: string|null = null;
+                let registeredMethod: ((req: Request, res: Response) => void)|null = null;
+
+                const app: any = {
+                    get: (path: string, middleware: Array<(req: Request, res: Response, next: NextFunction) => any>, method: ((req: Request, res: Response) => void)) => {
+                        registeredPath = path;
+                        registeredMethod = method;
+                    }
+                };
+
+                class Foo {
+                    private test = 'hello';
+
+                    public method(req: Request, res: Response) {
+                        return this.test;
+                    }
+                }
+                const fooInstance = new Foo();
+
+                /* When */
+                const routes = Torch(app as Application, (router) => {
+                    router.group({ context: fooInstance }, (aRouter) => {
+                        aRouter.group({ }, (bRouter) => {
+                            bRouter.get('/home', fooInstance.method);
+                        });
+                    });
+                });
+
+                /* Then */
+                expect(registeredPath).to.equal('/home');
+                expect((registeredMethod as any)(1 as any, 2 as any)).to.equal('hello');
+            });
+        });
+    });
 });

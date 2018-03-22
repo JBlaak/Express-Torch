@@ -60,6 +60,14 @@ export default class Router {
     }
 
     /**
+     * Context for routes in this group
+     * @returns {any}
+     */
+    get context(): any {
+        return this._config.context;
+    }
+
+    /**
      * GET method
      * @param path
      * @param config
@@ -146,6 +154,9 @@ export default class Router {
         route.name = config.name;
         if (config.middleware) {
             route.middleware = config.middleware;
+        }
+        if (config.context) {
+            route.context = config.context;
         }
 
         return route;

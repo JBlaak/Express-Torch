@@ -12,6 +12,8 @@ export default class Route {
 
     private _middleware: Middleware[];
 
+    private _context: any;
+
     private _controller: Controller;
 
     constructor(method: string, path: string, controller: Controller) {
@@ -38,6 +40,14 @@ export default class Route {
 
     set middleware(value: Middleware[]) {
         this._middleware = value;
+    }
+
+    get context(): any {
+        return this._context;
+    }
+
+    set context(value: any) {
+        this._context = value;
     }
 
     get name(): string|undefined {

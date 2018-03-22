@@ -10,7 +10,9 @@ import {trim} from './util/trim';
 export default function connect(app: Application,
                                 router: Router,
                                 previouxPrefix: string[] = [],
-                                previousMiddleware: Middleware[] = []): Route[] {
+                                previousMiddleware: Middleware[] = [],
+                                currentContext: any = undefined
+                            ): Route[] {
 
     let routes: Route[] = [];
 
@@ -35,13 +37,16 @@ export default function connect(app: Application,
             path = constrain(path, constraints);
         }
 
+        /* Extract context */
+        const context = route.context || currentContext;
+
         /* Transfer to Express */
         transfer(
             app,
             route.method,
             path,
             [...previousMiddleware, ...router.middleware, ...route.middleware],
-            route.controller
+            context ? route.controller.bind(context) : route.controller
         );
 
         /* Add to routes listing */
@@ -57,7 +62,8 @@ export default function connect(app: Application,
             app,
             group,
             prefix,
-            [...previousMiddleware, ...router.middleware]
+            [...previousMiddleware, ...router.middleware],
+            group.context || currentContext
         )];
     });
 

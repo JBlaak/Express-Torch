@@ -1,10 +1,10 @@
-import {Request, Response, NextFunction} from 'express';
 import {Controller} from './controller';
 import {Middleware} from './middleware';
 
 export interface RouteConfig {
+    controller: Controller;
     method?: string;
     name?: string;
     middleware?: Middleware[];
-    controller: Controller;
+    context?: any;
 }
