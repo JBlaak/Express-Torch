@@ -1,16 +1,17 @@
 import {Application} from 'express';
-import Route from './route';
-import Router from './router';
+
 import transfer from './connect/transfer';
-import {trim} from './util/trim';
 import {Middleware} from './models/middleware';
+import {Route} from './route';
+import {Router} from './router';
+import {trim} from './util/trim';
 
-export default function connect(app: Application,
-                                router: Router,
-                                previouxPrefix: string[] = [],
-                                previousMiddleware: Middleware[] = []): Route[] {
+export default function connect<T>(app: Application,
+                                   router: Router<T>,
+                                   previouxPrefix: string[] = [],
+                                   previousMiddleware: Middleware[] = []): Array<Route<T>> {
 
-    let routes: Route[] = [];
+    let routes: Array<Route<T>> = [];
 
     let prefix = [...previouxPrefix];
     if (router.prefix !== null) {
@@ -18,7 +19,7 @@ export default function connect(app: Application,
     }
 
     /* Transfer each route to Express */
-    router.routes.forEach((route: Route) => {
+    router.routes.forEach((route: Route<T>) => {
         let path = '';
         if (prefix.length > 0) {
             path += '/' + prefix.join('/');
@@ -37,15 +38,16 @@ export default function connect(app: Application,
         );
 
         /* Add to routes listing */
-        const aggregatedRoute = new Route(route.method, path, route.controller);
+        const aggregatedRoute = new Route<T>(route.method, path, route.controller);
         aggregatedRoute.middleware = [...previousMiddleware, ...router.middleware, ...route.middleware];
         aggregatedRoute.name = route.name;
+        aggregatedRoute.metadata = route.metadata;
         routes.push(aggregatedRoute);
     });
 
     /* Recursively transfer routes of each group as well including the parent middleware and prefix */
-    router.groups.forEach((group: Router) => {
-        routes = [...routes, ...connect(
+    router.groups.forEach((group: Router<T>) => {
+        routes = [...routes, ...connect<T>(
             app,
             group,
             prefix,

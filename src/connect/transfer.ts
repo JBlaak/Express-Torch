@@ -1,5 +1,6 @@
-import {Application, Request, Response, NextFunction} from 'express';
-import {Controller} from "../models/controller";
+import {Application} from 'express';
+
+import {Controller} from '../models/controller';
 import {Middleware} from '../models/middleware';
 
 /**
@@ -18,6 +19,7 @@ export default function transfer(app: Application,
     switch (method) {
         case 'get':
             app.get(path, middleware, controller);
+            // (req: Request, res: Response, next: NextFunction) => controller(req, res, next));
             break;
         case 'post':
             app.post(path, middleware, controller);

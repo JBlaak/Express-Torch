@@ -1,8 +1,7 @@
-import {Request, Response, NextFunction} from 'express';
-import {Middleware} from './models/middleware';
 import {Controller} from './models/controller';
+import {Middleware} from './models/middleware';
 
-export default class Route {
+export class Route<T> {
     private _method: string;
 
     private _path: string;
@@ -12,6 +11,8 @@ export default class Route {
     private _middleware: Middleware[];
 
     private _controller: Controller;
+
+    private _metadata?: T;
 
     constructor(method: string, path: string, controller: Controller) {
         this._method = method;
@@ -45,5 +46,13 @@ export default class Route {
 
     set name(value: string|undefined) {
         this._name = value;
+    }
+
+    get metadata(): T | undefined {
+        return this._metadata;
+    }
+
+    set metadata(value: T | undefined) {
+        this._metadata = value;
     }
 };

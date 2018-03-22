@@ -1,14 +1,15 @@
-import Route from "./route";
 import {compile} from 'path-to-regexp';
 
-export default class Routes {
+import {Route} from './route';
+
+export class Routes<T> {
 
     /**
      * List of all routes in the application
      */
-    private _routes: Route[];
+    private _routes: Array<Route<T>>;
 
-    set routes(value: Route[]) {
+    set routes(value: Array<Route<T>>) {
         this._routes = value;
     }
 

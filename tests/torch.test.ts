@@ -1,7 +1,8 @@
-import {Application, Request, Response, NextFunction} from 'express';
 import {expect} from 'chai';
+import {Application, NextFunction, Request, Response} from 'express';
+
+import {Router} from '../src/router';
 import Torch from '../src/torch';
-import Router from '../src/router';
 
 describe('Torch', function () {
 
@@ -22,7 +23,7 @@ describe('Torch', function () {
             const method = (req: any, res: any) => {
                 /* The impl */
             };
-            Torch(app as Application, (router: Router) => {
+            Torch(app as Application, (router: Router<any>) => {
                 router.get('/home', method);
             });
 
@@ -47,7 +48,7 @@ describe('Torch', function () {
             const method = (req: any, res: any) => {
                 /* The impl */
             };
-            Torch(app as Application, (router: Router) => {
+            Torch(app as Application, (router: Router<any>) => {
                 router.post('/posts', method);
             });
 
@@ -72,7 +73,7 @@ describe('Torch', function () {
             const method = (req: any, res: any) => {
                 /* The impl */
             };
-            Torch(app as Application, (router: Router) => {
+            Torch(app as Application, (router: Router<any>) => {
                 router.put('/posts/:id', method);
             });
 
@@ -97,7 +98,7 @@ describe('Torch', function () {
             const method = (req: any, res: any) => {
                 /* The impl */
             };
-            Torch(app as Application, (router: Router) => {
+            Torch(app as Application, (router: Router<any>) => {
                 router.delete('/posts/:id', method);
             });
 
@@ -124,7 +125,7 @@ describe('Torch', function () {
                 /* The impl */
             };
             try {
-                Torch(app as Application, (router: Router) => {
+                Torch(app as Application, (router: Router<any>) => {
                     router.get('/home', {
                         controller: method,
                         method: 'asdf'
@@ -155,7 +156,7 @@ describe('Torch', function () {
             const method = (req: any, res: any) => {
                 /* The impl */
             };
-            Torch(app as Application, (router: Router) => {
+            Torch(app as Application, (router: Router<any>) => {
                 router.get('/home', {
                     controller: method
                 });
@@ -182,7 +183,7 @@ describe('Torch', function () {
             const method = (req: any, res: any) => {
                 /* The impl */
             };
-            Torch(app as Application, (router: Router) => {
+            Torch(app as Application, (router: Router<any>) => {
                 router.get('home', method);
             });
 
@@ -209,8 +210,8 @@ describe('Torch', function () {
             const method = (req: any, res: any) => {
                 /* The impl */
             };
-            Torch(app as Application, (router: Router) => {
-                router.group({}, (router: Router) => {
+            Torch(app as Application, (router: Router<any>) => {
+                router.group({}, (router: Router<any>) => {
                     router.get('/home', method);
                 });
             });
@@ -236,9 +237,9 @@ describe('Torch', function () {
             const method = (req: any, res: any) => {
                 /* The impl */
             };
-            Torch(app as Application, (router: Router) => {
-                router.group({}, (router: Router) => {
-                    router.group({}, (router: Router) => {
+            Torch(app as Application, (router: Router<any>) => {
+                router.group({}, (router: Router<any>) => {
+                    router.group({}, (router: Router<any>) => {
                         router.get('/home', method);
                     });
                 });
@@ -263,9 +264,9 @@ describe('Torch', function () {
             const method = (req: any, res: any) => {
                 /* The impl */
             };
-            Torch(app as Application, (router: Router) => {
-                router.group({prefix: 'api'}, (router: Router) => {
-                    router.group({prefix: 'posts'}, (router: Router) => {
+            Torch(app as Application, (router: Router<any>) => {
+                router.group({prefix: 'api'}, (router: Router<any>) => {
+                    router.group({prefix: 'posts'}, (router: Router<any>) => {
                         router.get('/:id/update', method);
                     });
                 });
@@ -289,9 +290,9 @@ describe('Torch', function () {
             const method = (req: any, res: any) => {
                 /* The impl */
             };
-            Torch(app as Application, (router: Router) => {
-                router.group({prefix: 'api'}, (router: Router) => {
-                    router.group({}, (router: Router) => {
+            Torch(app as Application, (router: Router<any>) => {
+                router.group({prefix: 'api'}, (router: Router<any>) => {
+                    router.group({}, (router: Router<any>) => {
                         router.get('/:id/update', method);
                     });
                 });
@@ -315,10 +316,10 @@ describe('Torch', function () {
             const method = (req: any, res: any) => {
                 /* The impl */
             };
-            Torch(app as Application, (router: Router) => {
-                router.group({prefix: 'api'}, (router: Router) => {
-                    router.group({}, (router: Router) => {
-                        router.group({}, (router: Router) => {
+            Torch(app as Application, (router: Router<any>) => {
+                router.group({prefix: 'api'}, (router: Router<any>) => {
+                    router.group({}, (router: Router<any>) => {
+                        router.group({}, (router: Router<any>) => {
                             router.get('/:id/update', method);
                         });
                     });
@@ -343,9 +344,9 @@ describe('Torch', function () {
             const method = (req: any, res: any) => {
                 /* The impl */
             };
-            Torch(app as Application, (router: Router) => {
-                router.group({prefix: 'api'}, (router: Router) => {
-                    router.group({prefix: 'posts'}, (router: Router) => {
+            Torch(app as Application, (router: Router<any>) => {
+                router.group({prefix: 'api'}, (router: Router<any>) => {
+                    router.group({prefix: 'posts'}, (router: Router<any>) => {
                         router.get('/', method);
                     });
                 });
@@ -372,7 +373,7 @@ describe('Torch', function () {
             const method = (req: any, res: any) => {
                 /* The impl */
             };
-            Torch(app as Application, (router: Router) => {
+            Torch(app as Application, (router: Router<any>) => {
                 router.get('/home', {
                     middleware: [middleware],
                     controller: method
@@ -400,8 +401,8 @@ describe('Torch', function () {
             const method = (req: any, res: any) => {
                 /* The impl */
             };
-            Torch(app as Application, (router: Router) => {
-                router.group({middleware: [middleware]}, (router: Router) => {
+            Torch(app as Application, (router: Router<any>) => {
+                router.group({middleware: [middleware]}, (router: Router<any>) => {
                     router.get('/home', method);
                 });
             });
@@ -427,9 +428,9 @@ describe('Torch', function () {
             const method = (req: any, res: any) => {
                 /* The impl */
             };
-            Torch(app as Application, (router: Router) => {
-                router.group({middleware: [middleware]}, (router: Router) => {
-                    router.group({}, (router: Router) => {
+            Torch(app as Application, (router: Router<any>) => {
+                router.group({middleware: [middleware]}, (router: Router<any>) => {
+                    router.group({}, (router: Router<any>) => {
                         router.get('/home', method);
                     });
                 });
@@ -462,9 +463,9 @@ describe('Torch', function () {
             const method = (req: any, res: any) => {
                 /* The impl */
             };
-            Torch(app as Application, (router: Router) => {
-                router.group({middleware: [a]}, (router: Router) => {
-                    router.group({middleware: [b]}, (router: Router) => {
+            Torch(app as Application, (router: Router<any>) => {
+                router.group({middleware: [a]}, (router: Router<any>) => {
+                    router.group({middleware: [b]}, (router: Router<any>) => {
                         router.get('/home', {
                             middleware: [c],
                             controller: method
@@ -489,7 +490,7 @@ describe('Torch', function () {
                 }
             };
 
-            const routes = Torch(app as Application, (router: Router) => {
+            const routes = Torch(app as Application, (router: Router<any>) => {
                 router.group({prefix: '/api'}, function (router) {
                     router.get('/posts', (req: any, res: any) => {
                         /* The impl */
@@ -513,7 +514,7 @@ describe('Torch', function () {
                     }
                 };
 
-                const routes = Torch(app as Application, (router: Router) => {
+                const routes = Torch(app as Application, (router: Router<any>) => {
                     router.get('/my-page', {
                         name: 'home',
                         controller: (req: any, res: any) => {
@@ -535,7 +536,7 @@ describe('Torch', function () {
                     }
                 };
 
-                const routes = Torch(app as Application, (router: Router) => {
+                const routes = Torch(app as Application, (router: Router<any>) => {
                     router.get('/posts/:id', {
                         name: 'posts.show',
                         controller: (req: any, res: any) => {
@@ -559,7 +560,7 @@ describe('Torch', function () {
                     }
                 };
 
-                const routes = Torch(app as Application, (router: Router) => {
+                const routes = Torch(app as Application, (router: Router<any>) => {
                     router.get('/posts', {
                         name: 'posts.index',
                         controller: (req: any, res: any) => {
@@ -591,7 +592,7 @@ describe('Torch', function () {
                     }
                 };
 
-                const routes = Torch(app as Application, (router: Router) => {
+                const routes = Torch(app as Application, (router: Router<any>) => {
                     router.get('/home', {
                         name: 'home',
                         controller: (req: any, res: any) => {
@@ -614,5 +615,107 @@ describe('Torch', function () {
             });
         });
 
+    });
+
+
+    
+    describe('settings of metadata on routes', function () {
+        it('should leave metadata empty if the user didnt set any', function () {
+
+            /* Given */
+            type myMetaData = { blaat: string };
+
+            let registeredPath: string|null = null;
+            let registeredMethod: ((req: Request, res: Response) => void)|null = null;
+
+            const app: any = {
+                get: (path: string, middleware: Array<(req: Request, res: Response, next: NextFunction) => any>, method: ((req: Request, res: Response) => void)) => {
+                    registeredPath = path;
+                    registeredMethod = method;
+                }
+            };
+
+            /* When */
+            const method = (req: any, res: any) => {
+                /* The impl */
+            };
+            const routes = Torch<myMetaData>(app as Application, router => {
+                router.get('/home', method);
+            });
+
+            /* Then */
+            expect(registeredPath).to.equal('/home');
+            expect(registeredMethod).to.equal(method);
+            expect(routes.all()[0].metadata).to.equal(undefined);
+        });
+
+        it('should allow a user to set metadata on a route', function () {
+
+            /* Given */
+            type myMetaData = { blaat: string };
+
+            let registeredPath: string|null = null;
+            let registeredMethod: ((req: Request, res: Response) => void)|null = null;
+
+            const app: any = {
+                get: (path: string, middleware: Array<(req: Request, res: Response, next: NextFunction) => any>, method: ((req: Request, res: Response) => void)) => {
+                    registeredPath = path;
+                    registeredMethod = method;
+                }
+            };
+
+            /* When */
+            const method = (req: any, res: any) => {
+                /* The impl */
+            };
+            const routes = Torch<myMetaData>(app as Application, router => {
+                router.get('/home', {
+                    controller: method,
+                    metadata: { blaat: "myString" }
+                });
+            });
+
+            /* Then */
+            expect(registeredPath).to.equal('/home');
+            expect(registeredMethod).to.equal(method);
+            expect(routes.all()[0].metadata).to.deep.equal({ blaat: 'myString' });
+        });
+    });
+
+    
+    describe('classes as controller', function () {
+        it('should leave metadata empty if the user didnt set any', function () {
+
+            /* Given */
+            type myMetaData = { blaat: string };
+
+            let registeredPath: string|null = null;
+            let registeredMethod: ((req: Request, res: Response) => void)|null = null;
+
+            const app: any = {
+                get: (path: string, middleware: Array<(req: Request, res: Response, next: NextFunction) => any>, method: ((req: Request, res: Response) => void)) => {
+                    registeredPath = path;
+                    registeredMethod = method;
+                }
+            };
+
+            class foo {
+                private test = 'hello';
+
+                public method(req: Request, res: Response) {
+                    return this.test;
+                }
+            }
+            const fooInstance = new foo();
+
+            /* When */
+            const routes = Torch<myMetaData>(app as Application, router => {
+                router.get('/home', fooInstance.method.bind(fooInstance));
+            });
+
+            /* Then */
+            expect(registeredPath).to.equal('/home');
+            expect((registeredMethod as any)(1 as any, 2 as any)).to.equal('hello');
+        });
     });
 });

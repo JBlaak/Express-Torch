@@ -1,21 +1,22 @@
-import {Application, Request, Response, NextFunction} from 'express';
-import Router from './router';
-import {RouteConfig} from './models/route_config';
-import {GroupConfig} from './models/group_config';
+import {Application, NextFunction, Response} from 'express';
+
 import connect from './connect';
-import Routes from './routes';
+import {GroupConfig} from './models/group_config';
 import {RequestWithTorch} from './models/request_with_torch';
+import {RouteConfig} from './models/route_config';
+import {Router} from './router';
+import {Routes} from './routes';
 
-export type Router = Router;
-export type Route = RouteConfig;
-export type Group = GroupConfig;
-export type Routes = Routes;
+export {Router} from './router';
+export { Routes } from './routes';
+export { RouteConfig } from './models/route_config';
+export { GroupConfig } from './models/group_config';
 
-export default function Torch(app: Application, callback: (router: Router) => void): Routes {
-    let routes: Routes = new Routes();
+export default function Torch<T>(app: Application, callback: (router: Router<T>) => void): Routes<T> {
+    let routes: Routes<T> = new Routes<T>();
 
-    const router = new Router({
-        middleware: [(req: RequestWithTorch, res: Response, next: NextFunction) => {
+    const router = new Router<T>({
+        middleware: [(req: RequestWithTorch<T>, res: Response, next: NextFunction) => {
             req.routes = routes;
             next();
         }]
